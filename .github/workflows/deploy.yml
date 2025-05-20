@@ -20,7 +20,7 @@ jobs:
         ssh-keyscan -H 3.109.213.241 >> ~/.ssh/known_hosts
 
     - name: Test SSH connection
-      run: ssh -o StrictHostKeyChecking=no ubuntu@3.109.213.241 "echo ✅ Connected from GitHub Actions!"
+      run: ssh -i ~/.ssh/id_ed25519 -o StrictHostKeyChecking=no ubuntu@3.109.213.241 "echo ✅ Connected from GitHub Actions!"
 
     - name: Deploy code to EC2
-      run: scp -r * ubuntu@3.109.213.241:/var/www/html
+      run: scp -i ~/.ssh/id_ed25519 -r * ubuntu@3.109.213.241:/var/www/html
