@@ -19,6 +19,14 @@ jobs:
         printf "%s\n" "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_ed25519
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan -H 3.109.213.241 >> ~/.ssh/known_hosts
+        
+    - name: Upload files to temp dir
+      run: |
+        scp -i ~/.ssh/id_ed25519 -r * ubuntu@3.109.213.241:/home/ubuntu/html_upload 
+        
+    - name: Move files to /var/www/html with sudo
+      run: |
+        ssh -i ~/.ssh/id_ed25519 ubuntu@3.109.213.241 'sudo mv /home/ubuntu/html_upload/* /var/www/html/'    
 
     - name: Test SSH connection
       run: ssh ubuntu@3.109.213.241 "echo '✅ Connected!'"
